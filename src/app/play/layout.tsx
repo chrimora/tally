@@ -20,12 +20,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               <Image src="/logo.png" alt="tally logo" height="40" width="40" />
             </Link>
           </div>
-          <div className="grow flex justify-center">
+          <div className="grow flex gap-2 justify-center">
             {navigation.map((link) => {
               return (
                 <Link
                   className={`p-3 ${
-                    pathname.startsWith(link.href) ? "border-b-2" : ""
+                    pathname.startsWith(link.href) // Active link
+                      ? "border-b-2 border-accent-light dark:border-accent-dark"
+                      : "hover:border-b-2"
                   }`}
                   href={link.href}
                   key={link.name}
