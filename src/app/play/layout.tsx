@@ -13,7 +13,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   return (
     <>
-      <div className="bg-primary-light dark:bg-primary-dark shadow-2xl">
+      <div className="bg-accent-light dark:bg-accent-dark shadow-2xl">
         <div className="max-w-screen-sm mx-auto flex py-3">
           <div className="w-20 flex shrink-0 justify-center items-center">
             <Link href="/" className="block">
@@ -24,9 +24,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
             {navigation.map((link) => {
               return (
                 <Link
-                  className={`p-3 ${
+                  className={`p-3 text-lg ${
                     pathname.startsWith(link.href) // Active link
-                      ? "border-b-2 border-accent-light dark:border-accent-dark"
+                      ? "border-b-2"
                       : "hover:border-b-2"
                   }`}
                   href={link.href}
