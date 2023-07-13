@@ -1,0 +1,13 @@
+{
+  "name": "tally",
+  "short_name": "tally",
+  "start_url": ".",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "type": "image/png",
+      "sizes": "260x260"
+    }
+  ]
+}
