@@ -13,6 +13,10 @@ module.exports = {
         light: "#FDF6E3",
         dark: "#2D353B",
       },
+      bgdim: {
+        light: "#EFEBD4",
+        dark: "#232A2E",
+      },
       primary: {
         light: "#5C6A72",
         dark: "#D3C6AA",

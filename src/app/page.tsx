@@ -20,7 +20,7 @@ export default function Home() {
       <div>
         <Link
           href="/play/game"
-          className="p-4 border-2 border-accent-light dark:border-accent-dark hover:bg-accent-light hover:dark:bg-accent-dark"
+          className="p-4 border-2 border-accent-light dark:border-accent-dark hover:bg-accent-light hover:dark:bg-accent-dark hover:bg-accent-light hover:dark:bg-accent-dark"
         >
           Enter
         </Link>

@@ -13,7 +13,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   return (
     <>
-      <div className="bg-accent-light dark:bg-accent-dark shadow-2xl">
+      <div className="bg-accent-light dark:bg-accent-dark">
         <div className="max-w-screen-sm mx-auto flex py-3">
           <div className="w-20 flex shrink-0 justify-center items-center">
             <Link href="/" className="block">
@@ -40,7 +40,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="flex-none w-20"></div>
         </div>
       </div>
-      <div className="max-w-screen-sm mx-auto p-5">{children}</div>
+      <div className="max-w-screen-sm mx-auto text-center p-8">{children}</div>
     </>
   );
 }
