@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import HistoryStore from "../history.js";
+import HistoryStore from "../history";
 
 function Score(key: string) {
   const [score, scoreSetter] = useState(0);
@@ -9,8 +9,9 @@ function Score(key: string) {
 
   // Collect localStorage and set values if available - every render
   useEffect(() => {
-    const items = JSON.parse(localStorage.getItem(key));
-    if (items) {
+    const data = localStorage.getItem(key) || "";
+    if (data) {
+      const items = JSON.parse(data);
       scoreSetter(items.score);
       nameSetter(items.name);
     }
@@ -23,12 +24,14 @@ function Score(key: string) {
 
   return [
     <button
+      key={`${key}1`}
       className="p-5 m-2 text-9xl rounded-xl hover:bg-bgdim-light hover:dark:bg-bgdim-dark active:bg-bgdim-light active:dark:bg-bgdim-dark"
       onClick={() => scoreSetter(score + 1)}
     >
       {score}
     </button>,
     <input
+      key={`${key}2`}
       type="text"
       onChange={(e) => nameSetter(e.target.value)}
       value={name}
@@ -46,8 +49,8 @@ export default function Game() {
   function nextGame() {
     console.log("next game");
     // Write current game to the history
-    const playerA = JSON.parse(localStorage.getItem(keyA));
-    const playerB = JSON.parse(localStorage.getItem(keyB));
+    const playerA = JSON.parse(localStorage.getItem(keyA)!);
+    const playerB = JSON.parse(localStorage.getItem(keyB)!);
     HistoryStore.addGame([playerA, playerB]);
 
     // Reset current game
