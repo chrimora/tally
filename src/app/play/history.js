@@ -1,3 +1,5 @@
+import { nanoid } from "nanoid";
+
 export default class HistoryStore {
   static key = "history";
 
@@ -15,7 +17,7 @@ export default class HistoryStore {
 
   static addGame(game) {
     let history = this.get();
-    history.push(game);
+    history.push({ gameID: nanoid(), gameObj: game });
     this.set(history);
   }
 }

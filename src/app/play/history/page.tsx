@@ -18,12 +18,16 @@ export default function History() {
   return (
     <>
       <div className="mx-auto text-sm sm:text-lg">
-        {HistoryStore.get().map((game) => (
-          <div className="flex border-b">
-            <div className="p-1 basis-0 grow text-right">{game[0].name}</div>
-            <div className="p-1 basis-8 text-right">{game[0].score}</div>
-            <div className="p-1 basis-8 text-left">{game[1].score}</div>
-            <div className="p-1 basis-0 grow text-left">{game[1].name}</div>
+        {HistoryStore.get().map((g) => (
+          <div key={`${g.gameID}`} className="flex border-b">
+            <div className="p-1 basis-0 grow text-right">
+              {g.gameObj[0].name}
+            </div>
+            <div className="p-1 basis-8 text-right">{g.gameObj[0].score}</div>
+            <div className="p-1 basis-8 text-left">{g.gameObj[1].score}</div>
+            <div className="p-1 basis-0 grow text-left">
+              {g.gameObj[1].name}
+            </div>
           </div>
         ))}
       </div>
