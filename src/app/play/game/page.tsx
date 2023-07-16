@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import HistoryStore from "../history.js";
 
 function Score(key: string) {
   const [score, scoreSetter] = useState(0);
@@ -45,7 +46,9 @@ export default function Game() {
   function nextGame() {
     console.log("next game");
     // Write current game to the history
-    // TODO
+    const playerA = JSON.parse(localStorage.getItem(keyA));
+    const playerB = JSON.parse(localStorage.getItem(keyB));
+    HistoryStore.addGame([playerA, playerB]);
 
     // Reset current game
     localStorage.removeItem(keyA);

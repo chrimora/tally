@@ -8,6 +8,8 @@ export default function Game() {
       )
     ) {
       localStorage.clear();
+      // Refresh page
+      location.reload();
     }
   }
 
