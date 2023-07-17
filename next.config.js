@@ -1,4 +1,10 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = { output: "export", images: { unoptimized: true } };
+let root = "/tally";
+
+const nextConfig = {
+  basePath: root,
+  output: "export",
+  images: { unoptimized: true },
+};
 
 module.exports = nextConfig;

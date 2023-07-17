@@ -5,7 +5,12 @@ export default function Home() {
   return (
     <div className="space-y-12 text-center p-8">
       <Link href="/" className="inline-block mx-auto">
-        <Image src="/logo.png" alt="tally logo" height="200" width="200" />
+        <Image
+          src="/tally/logo.png"
+          alt="tally logo"
+          height="200"
+          width="200"
+        />
       </Link>
       <div className="text-9xl font-semi-bold text-primary-light dark:text-primary-dark">
         <Link href="/">tally</Link>

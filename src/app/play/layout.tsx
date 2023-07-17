@@ -17,7 +17,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
         <div className="max-w-screen-sm mx-auto flex py-3">
           <div className="w-20 flex shrink-0 justify-center items-center">
             <Link href="/" className="block">
-              <Image src="/logo.png" alt="tally logo" height="40" width="40" />
+              <Image
+                src="/tally/logo.png"
+                alt="tally logo"
+                height="40"
+                width="40"
+              />
             </Link>
           </div>
           <div className="grow flex gap-2 justify-center">
@@ -25,7 +30,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               return (
                 <Link
                   className={`p-3 text-lg ${
-                    pathname.startsWith(link.href) // Active link
+                    pathname.endsWith(link.href) // Active link
                       ? "border-b-2"
                       : "hover:border-b-2"
                   }`}
