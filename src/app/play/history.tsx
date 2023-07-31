@@ -23,7 +23,7 @@ export class Game {
   static get(): Game {
     if (typeof window == "undefined") return new Game(); // Server side
 
-    const data = localStorage.getItem(this.key);
+    const data = localStorage.getItem(Game.key);
     if (data) {
       return this.deserialize(data);
     } else {
@@ -32,6 +32,9 @@ export class Game {
   }
 
   reset() {
+    // Wiping localStorage would reset names as well
+    // Perform manually
+    this.id = nanoid();
     for (let s of this.scores) {
       s.score = 0;
     }
@@ -127,7 +130,7 @@ export class History {
   static get(): History {
     if (typeof window == "undefined") return new History(); // Server side
 
-    const data = localStorage.getItem(this.key);
+    const data = localStorage.getItem(History.key);
     if (data) {
       return this.deserialize(data);
     } else {
@@ -138,7 +141,7 @@ export class History {
   static add(game: Game) {
     let history = this.get();
     history.games.push(game);
-    localStorage.setItem(this.key, history.serialize());
+    localStorage.setItem(History.key, history.serialize());
   }
 
   static wipe() {
@@ -147,7 +150,7 @@ export class History {
         "This will reset all game data, there is no backup. Do you want to continue?"
       )
     ) {
-      localStorage.removeItem(this.key);
+      localStorage.removeItem(History.key);
       // Refresh page
       location.reload();
     }
