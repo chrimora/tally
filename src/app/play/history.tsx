@@ -15,8 +15,8 @@ export class Game {
   constructor() {
     this.id = nanoid();
     this.scores = [
-      { name: "anne", score: 0 },
-      { name: "bob", score: 0 },
+      { name: "player 1", score: 0 },
+      { name: "player 2", score: 0 },
     ];
   }
 
@@ -66,11 +66,9 @@ export class Game {
 
     // TODO; align + and - buttons https://stackoverflow.com/a/51526649
     return (
-      <div className="flex flex-col items-center">
+      <div key={`score${i}`} className="flex flex-col items-center">
         <div className="flex flex-row items-center">
-          <div key={`score${i}`} className="text-9xl">
-            {score}
-          </div>
+          <div className="text-9xl">{score}</div>
           <div className="flex flex-col items-center">
             <button
               className="h-10 w-10 m-1 rounded-full text-xl bg-bgdim-light dark:bg-bgdim-dark active:border-2 hover:border-2 active:border-accent-light active:dark:border-accent-dark hover:border-accent-light hover:dark:border-accent-dark"
@@ -87,7 +85,6 @@ export class Game {
           </div>
         </div>
         <input
-          key={`name${i}`}
           type="text"
           onChange={(e) => nameSetter(e.target.value)}
           value={name}
