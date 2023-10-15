@@ -16,11 +16,17 @@ export default function Home() {
         <Link href="/">tally</Link>
       </div>
       <div className="max-w-md mx-auto">
-        Welcome to tally a simple app to count scores.
+        Welcome to tally, your ultimate destination for hassle-free score
+        tracking!
         <br />
         <br />
-        This is an exploration into some new technologies that coincides with
-        helping to keep scores of a few ongoing games.
+        Our user-friendly platform is designed to make scorekeeping a breeze,
+        ensuring that you can focus on the excitement of the game rather than
+        the numbers. With tally, you can effortlessly record scores and manage
+        multiple games.
+        <br />
+        <br />
+        It's time to score big with tally!
       </div>
       <div>
         <Link
@@ -29,6 +35,9 @@ export default function Home() {
         >
           Enter
         </Link>
+      </div>
+      <div className="max-w-md mx-auto text-xs">
+        All data is stored on your device so don't lose it!
       </div>
     </div>
   );
