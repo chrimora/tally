@@ -48,57 +48,56 @@ export class Game {
     this.reset();
   }
 
-  nameComponent(i: number) {
+  scoreComponent(i: number) {
+    const [score, scoreSetter] = useState(0);
     const [name, nameSetter] = useState("");
 
     // Stops hydration errors - set state initial value from localStorage
     useEffect(() => {
+      scoreSetter(this.scores[i].score);
       nameSetter(this.scores[i].name);
     }, []);
 
     useEffect(() => {
+      this.scores[i].score = score;
       this.scores[i].name = name;
       this.store();
-    }, [name]);
+    }, [score, name]);
 
+    // TODO; align + and - buttons https://stackoverflow.com/a/51526649
     return (
-      <input
-        key={`name${i}`}
-        type="text"
-        onChange={(e) => nameSetter(e.target.value)}
-        value={name}
-        className="min-w-0 appearance-none bg-bgdim-light dark:bg-bgdim-dark mx-2 my-5 py-2 rounded-xl text-center focus:outline-none"
-      />
-    );
-  }
-  scoreComponent(i: number) {
-    const [score, scoreSetter] = useState(0);
-
-    // Stops hydration errors - set state initial value from localStorage
-    useEffect(() => {
-      scoreSetter(this.scores[i].score);
-    }, []);
-
-    useEffect(() => {
-      this.scores[i].score = score;
-      this.store();
-    }, [score]);
-
-    return (
-      <button
-        key={`score${i}`}
-        className="p-5 m-2 text-9xl rounded-xl hover:bg-bgdim-light hover:dark:bg-bgdim-dark active:bg-bgdim-light active:dark:bg-bgdim-dark"
-        onClick={() => scoreSetter(score + 1)}
-      >
-        {score}
-      </button>
+      <div className="flex flex-col items-center">
+        <div className="flex flex-row items-center">
+          <div key={`score${i}`} className="text-9xl">
+            {score}
+          </div>
+          <div className="flex flex-col items-center">
+            <button
+              className="h-10 w-10 m-1 rounded-full text-xl bg-bgdim-light dark:bg-bgdim-dark active:border-2 hover:border-2 active:border-accent-light active:dark:border-accent-dark hover:border-accent-light hover:dark:border-accent-dark"
+              onClick={() => scoreSetter(score + 1)}
+            >
+              +
+            </button>
+            <button
+              className="h-10 w-10 m-1 rounded-full text-xl bg-bgdim-light dark:bg-bgdim-dark active:border-2 hover:border-2 active:border-accent-light active:dark:border-accent-dark hover:border-accent-light hover:dark:border-accent-dark"
+              onClick={() => scoreSetter(score - 1)}
+            >
+              -
+            </button>
+          </div>
+        </div>
+        <input
+          key={`name${i}`}
+          type="text"
+          onChange={(e) => nameSetter(e.target.value)}
+          value={name}
+          className="flex appearance-none outline-none bg-bgdim-light dark:bg-bgdim-dark py-2 rounded-xl text-center"
+        />
+      </div>
     );
   }
   getScoreComponents() {
     return [this.scores.map((_, i) => this.scoreComponent(i))];
-  }
-  getNameComponents() {
-    return [this.scores.map((_, i) => this.nameComponent(i))];
   }
 
   store() {
@@ -147,7 +146,7 @@ export class History {
   static wipe() {
     if (
       confirm(
-        "This will reset all game data, there is no backup. Do you want to continue?"
+        "This will reset all game data, there is no backup. Do you want to continue?",
       )
     ) {
       localStorage.removeItem(History.key);
