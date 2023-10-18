@@ -4,30 +4,42 @@ export type Score = {
 };
 
 export type GameData = {
-  id: string;
   scores: Score[];
 };
 
-export class GameStorage {
-  static key = "game";
+export type GameGroup = {
+  name: string;
+  games: GameData[];
+};
 
-  static read(): GameData | null {
+export type HistoryData = {
+  groups: GameGroup[];
+};
+
+export class Storage<Type> {
+  key: string;
+
+  constructor(key: string) {
+    this.key = key;
+  }
+
+  read(): Type | null {
     if (typeof window == "undefined") return null; // Server side
 
-    const data = localStorage.getItem(GameStorage.key);
+    const data = localStorage.getItem(this.key);
     if (data) {
       return JSON.parse(data);
     }
     return null;
   }
 
-  static store(data: GameData) {
+  store(data: Type) {
     let json = JSON.stringify(data);
-    localStorage.setItem(GameStorage.key, json);
+    localStorage.setItem(this.key, json);
   }
 
-  static wipe() {
-    localStorage.removeItem(GameStorage.key);
+  wipe() {
+    localStorage.removeItem(this.key);
   }
 }
 

@@ -2,7 +2,7 @@
 
 import { Component, useEffect, useState } from "react";
 import { nanoid } from "nanoid";
-import { GameData, GameStorage, Score } from "../history";
+import { GameData, Score, Storage } from "../history";
 
 type PlayerProps = {
   index: number;
@@ -63,7 +63,7 @@ function Game({ state_reset }: GameProps) {
     ]);
   }
 
-  const [id, idSetter] = useState(nanoid());
+  const storage = new Storage<GameData>("game");
   const [scores, scoresSetter] = useState<Score[]>([]);
 
   // Fix hydration errors
@@ -71,26 +71,22 @@ function Game({ state_reset }: GameProps) {
     // Init to two players
     addPlayer();
 
-    let load = GameStorage.read();
+    let load = storage.read();
     if (load) {
-      idSetter(load.id);
       scoresSetter(load.scores);
     }
   }, []);
 
-  function store() {
-    GameStorage.store({ id: id, scores: scores });
-  }
   function update(i: number, score: Score) {
     let new_scores = [...scores];
     new_scores[i] = score;
 
     scoresSetter(new_scores);
-    store();
+    storage.store({ scores: scores });
   }
 
   function reset() {
-    GameStorage.wipe();
+    storage.wipe();
     state_reset();
   }
   function next() {
