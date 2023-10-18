@@ -26,7 +26,7 @@ export default function Home() {
         multiple games.
         <br />
         <br />
-        It's time to score big with tally!
+        It&apos;s time to score big with tally!
       </div>
       <div>
         <Link
@@ -37,7 +37,7 @@ export default function Home() {
         </Link>
       </div>
       <div className="max-w-md mx-auto text-xs">
-        All data is stored on your device so don't lose it!
+        All data is stored on your device so don&apos;t lose it!
       </div>
     </div>
   );
