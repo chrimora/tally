@@ -91,7 +91,7 @@ function Game({ state_reset }: GameProps) {
 
   function reset() {
     GameStorage.wipe();
-    state_reset(); // TODO; check this state reset is still required - think localstorage is read every cycle
+    state_reset();
   }
   function next() {
     // TODO; add to history store and reset keeping players
@@ -99,7 +99,7 @@ function Game({ state_reset }: GameProps) {
 
   return (
     <>
-      <div className="flex flex-wrap justify-center gap-2">
+      <div className="flex flex-row flex-wrap justify-center items-center gap-3">
         {scores.map((score, i) => (
           <Player
             index={i}
@@ -108,12 +108,14 @@ function Game({ state_reset }: GameProps) {
             key={i}
           />
         ))}
-        <button
-          className="h-15 w-15 m-1 rounded-full text-xl bg-bgdim-light dark:bg-bgdim-dark active:border-2 hover:border-2 active:border-accent-light active:dark:border-accent-dark hover:border-accent-light hover:dark:border-accent-dark"
-          onClick={() => addPlayer()}
-        >
-          +
-        </button>
+        <div className="">
+          <button
+            className="font-black text-5xl text-bgdim-light dark:text-bgdim-dark h-20 w-20 rounded-full active:border-2 hover:border-2 active:border-accent-light active:dark:border-accent-dark hover:border-accent-light hover:dark:border-accent-dark"
+            onClick={() => addPlayer()}
+          >
+            +
+          </button>
+        </div>
       </div>
       <div>
         <button
