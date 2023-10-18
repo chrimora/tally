@@ -12,17 +12,17 @@ type PlayerProps = {
 
 function Player({ index, update, score }: PlayerProps) {
   function scoreSetter(n: number) {
-    update(index, { name: score.name, score: score.score + n });
+    update(index, { name: score.name, amount: score.amount + n });
   }
   function nameSetter(name: string) {
-    update(index, { name: name, score: score.score });
+    update(index, { name: name, amount: score.amount });
   }
 
   // TODO; align + and - buttons https://stackoverflow.com/a/51526649
   return (
     <div key={`player${index}`} className="flex flex-col items-center">
       <div className="flex flex-row items-center">
-        <div className="text-9xl">{score.score}</div>
+        <div className="text-9xl">{score.amount}</div>
         <div className="flex flex-col items-center">
           <button
             className="h-10 w-10 m-1 rounded-full text-xl bg-bgdim-light dark:bg-bgdim-dark active:border-2 hover:border-2 active:border-accent-light active:dark:border-accent-dark hover:border-accent-light hover:dark:border-accent-dark"
@@ -58,7 +58,7 @@ function Game({ state_reset }: GameProps) {
       ...scores,
       {
         name: `player ${scores.length}`,
-        score: 0,
+        amount: 0,
       },
     ]);
   }

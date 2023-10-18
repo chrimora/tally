@@ -1,6 +1,6 @@
 export type Score = {
   name: string;
-  score: number;
+  amount: number;
 };
 
 export type GameData = {

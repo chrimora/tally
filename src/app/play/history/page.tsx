@@ -13,8 +13,8 @@ export default function Page() {
               <div className="p-1 basis-0 grow text-right">
                 {g.scores[0].name}
               </div>
-              <div className="p-1 basis-8 text-right">{g.scores[0].score}</div>
-              <div className="p-1 basis-8 text-left">{g.scores[1].score}</div>
+              <div className="p-1 basis-8 text-right">{g.scores[0].amount}</div>
+              <div className="p-1 basis-8 text-left">{g.scores[1].amount}</div>
               <div className="p-1 basis-0 grow text-left">
                 {g.scores[1].name}
               </div>
