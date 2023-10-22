@@ -17,6 +17,7 @@ export type HistoryData = {
 };
 
 export class Storage<Type> {
+  // TODO; use the indexedDB!
   key: string;
 
   constructor(key: string) {
@@ -46,51 +47,85 @@ export class Storage<Type> {
 export class History {
   static key = "history";
 
-  games: GameData[];
-
-  constructor() {
-    this.games = [];
+  static get(): HistoryData | null {
+    const storage = new Storage<HistoryData>(History.key);
+    return storage.read();
   }
 
-  static get(): History {
-    if (typeof window == "undefined") return new History(); // Server side
+  static create(game: GameData, group?: number) {
+    let history = History.get();
 
-    const data = localStorage.getItem(History.key);
-    if (data) {
-      return this.deserialize(data);
+    if (!history) {
+      history = {
+        groups: [
+          {
+            name: "group 0",
+            games: [game],
+          },
+        ],
+      };
     } else {
-      return new History();
+      if (!group) {
+        history.groups.push({
+          name: `group ${history.groups.length}`,
+          games: [game],
+        });
+      } else {
+        history.groups[group].games.push(game);
+      }
     }
-  }
-
-  static add(game: GameData) {
-    let history = this.get();
-    history.games.push(game);
-    localStorage.setItem(History.key, history.serialize());
-  }
-
-  static wipe() {
-    if (
-      confirm(
-        "This will reset all game data, there is no backup. Do you want to continue?",
-      )
-    ) {
-      localStorage.removeItem(History.key);
-      // Refresh page
-      location.reload();
-    }
-  }
-
-  serialize(): string {
-    return JSON.stringify(this);
-  }
-  static deserialize(json: string): History {
-    const obj: History = JSON.parse(json);
-
-    let h = new History();
-    h.games = obj.games;
-    // TODO; games are not Game instances
-
-    return h;
+    const storage = new Storage<HistoryData>(History.key);
+    storage.store(history);
   }
 }
+// export class History {
+//   static key = "history";
+
+//   games: GameData[];
+
+//   constructor() {
+//     this.games = [];
+//   }
+
+//   static get(): History {
+//     if (typeof window == "undefined") return new History(); // Server side
+
+//     const data = localStorage.getItem(History.key);
+//     if (data) {
+//       return this.deserialize(data);
+//     } else {
+//       return new History();
+//     }
+//   }
+
+//   static add(game: GameData) {
+//     let history = this.get();
+//     history.games.push(game);
+//     localStorage.setItem(History.key, history.serialize());
+//   }
+
+//   static wipe() {
+//     if (
+//       confirm(
+//         "This will reset all game data, there is no backup. Do you want to continue?",
+//       )
+//     ) {
+//       localStorage.removeItem(History.key);
+//       // Refresh page
+//       location.reload();
+//     }
+//   }
+
+//   serialize(): string {
+//     return JSON.stringify(this);
+//   }
+//   static deserialize(json: string): History {
+//     const obj: History = JSON.parse(json);
+
+//     let h = new History();
+//     h.games = obj.games;
+//     // TODO; games are not Game instances
+
+//     return h;
+//   }
+// }

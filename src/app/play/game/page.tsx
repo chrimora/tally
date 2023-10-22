@@ -1,8 +1,7 @@
 "use client";
 
-import { Component, useEffect, useState } from "react";
-import { nanoid } from "nanoid";
-import { GameData, Score, Storage } from "../history";
+import { useEffect, useState } from "react";
+import { GameData, History, Score, Storage } from "../history";
 
 type PlayerProps = {
   index: number;
@@ -91,6 +90,8 @@ function Game({ state_reset }: GameProps) {
   }
   function next() {
     // TODO; add to history store and reset keeping players
+    History.create({ scores: scores });
+    reset();
   }
 
   return (
