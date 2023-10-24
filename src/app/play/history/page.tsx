@@ -1,15 +1,15 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { History, HistoryData } from "../history";
 
 export default function Page() {
-  let history: HistoryData = { groups: [] };
+  const [history, historySetter] = useState<HistoryData>({ groups: [] });
 
   useEffect(() => {
     const h = History.get();
     if (h) {
-      history = h;
+      historySetter(h);
     }
   }, []);
 
@@ -18,14 +18,23 @@ export default function Page() {
       <div className="mx-auto text-sm sm:text-lg">
         {history.groups.reverse().map((group, i) => (
           <div key={`${group.name}${i}`}>
+            <br />
             <table>
-              {group.games.map((game, j) => (
-                <tr>
-                  {game.scores.map((score) => (
-                    <td>{score.amount}</td>
-                  ))}
-                </tr>
-              ))}
+              <tbody>
+                {Object.entries(History.transformGroup(group)).map(
+                  ([name, amounts], k) => (
+                    <tr key={name} className={k != 0 ? "border-t" : ""}>
+                      <td className="border-r pr-4 mr-4">{name}</td>
+                      <td className="pr-4"></td>
+                      {amounts.map((amount, j) => (
+                        <td key={j} className="w-8 text-left">
+                          {amount}
+                        </td>
+                      ))}
+                    </tr>
+                  )
+                )}
+              </tbody>
             </table>
           </div>
         ))}

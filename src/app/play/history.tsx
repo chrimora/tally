@@ -44,6 +44,8 @@ export class Storage<Type> {
   }
 }
 
+type aggScores = { [name: string]: number[] };
+
 export class History {
   static key = "history";
 
@@ -77,55 +79,16 @@ export class History {
     const storage = new Storage<HistoryData>(History.key);
     storage.store(history);
   }
+
+  static transformGroup(data: GameGroup): aggScores {
+    let x: aggScores = {};
+
+    data.games.map((game) => {
+      game.scores.map(({ name, amount }) => {
+        if (!(name in x)) x[name] = [];
+        x[name].push(amount);
+      });
+    });
+    return x;
+  }
 }
-// export class History {
-//   static key = "history";
-
-//   games: GameData[];
-
-//   constructor() {
-//     this.games = [];
-//   }
-
-//   static get(): History {
-//     if (typeof window == "undefined") return new History(); // Server side
-
-//     const data = localStorage.getItem(History.key);
-//     if (data) {
-//       return this.deserialize(data);
-//     } else {
-//       return new History();
-//     }
-//   }
-
-//   static add(game: GameData) {
-//     let history = this.get();
-//     history.games.push(game);
-//     localStorage.setItem(History.key, history.serialize());
-//   }
-
-//   static wipe() {
-//     if (
-//       confirm(
-//         "This will reset all game data, there is no backup. Do you want to continue?",
-//       )
-//     ) {
-//       localStorage.removeItem(History.key);
-//       // Refresh page
-//       location.reload();
-//     }
-//   }
-
-//   serialize(): string {
-//     return JSON.stringify(this);
-//   }
-//   static deserialize(json: string): History {
-//     const obj: History = JSON.parse(json);
-
-//     let h = new History();
-//     h.games = obj.games;
-//     // TODO; games are not Game instances
-
-//     return h;
-//   }
-// }
