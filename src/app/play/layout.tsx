@@ -30,7 +30,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               return (
                 <Link
                   className={`p-3 text-lg ${
-                    pathname.endsWith(link.href) // Active link
+                    pathname.includes(link.href) // Active link
                       ? "border-b-2"
                       : "hover:border-b-2"
                   }`}

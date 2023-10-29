@@ -1,15 +1,24 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { GameData, History, Score, Storage } from "../history";
+import { useRouter } from "next/navigation";
+import {
+  GameData,
+  History,
+  Score,
+  Storage,
+  GAME_STORE_KEY,
+  GROUP_STORE_KEY,
+} from "../storage";
 
 type PlayerProps = {
   index: number;
   update: (i: number, score: Score) => void;
   score: Score;
+  fixNames: boolean;
 };
 
-function Player({ index, update, score }: PlayerProps) {
+function Player({ index, update, score, fixNames }: PlayerProps) {
   function scoreSetter(n: number) {
     update(index, { name: score.name, amount: score.amount + n });
   }
@@ -41,6 +50,7 @@ function Player({ index, update, score }: PlayerProps) {
         type="text"
         onChange={(e) => nameSetter(e.target.value)}
         value={score.name}
+        readOnly={fixNames}
         className="flex appearance-none outline-none bg-bgdim-light dark:bg-bgdim-dark py-2 rounded-xl text-center"
       />
     </div>
@@ -62,12 +72,15 @@ function Game({ state_reset }: GameProps) {
     ]);
   }
 
-  const storage = new Storage<GameData>("game");
+  const router = useRouter();
+
+  const storage = new Storage<GameData>(GAME_STORE_KEY);
   const [scores, scoresSetter] = useState<Score[]>([]);
+
+  const loadGroup = new Storage<number>(GROUP_STORE_KEY).read();
 
   // Fix hydration errors
   useEffect(() => {
-    // Init to two players
     addPlayer();
 
     let load = storage.read();
@@ -86,12 +99,12 @@ function Game({ state_reset }: GameProps) {
 
   function reset() {
     storage.wipe();
+    new Storage<number>(GROUP_STORE_KEY).wipe();
     state_reset();
   }
   function next() {
-    // TODO; add to history store and reset keeping players
-    History.create({ scores: scores });
-    reset();
+    const group = History.create({ scores: scores }, loadGroup || undefined);
+    router.push(`/play/game/load/${group}`);
   }
 
   return (
@@ -102,17 +115,20 @@ function Game({ state_reset }: GameProps) {
             index={i}
             update={(i, s) => update(i, s)}
             score={score}
+            fixNames={loadGroup ? true : false}
             key={i}
           />
         ))}
-        <div className="">
-          <button
-            className="font-black text-5xl text-bgdim-light dark:text-bgdim-dark h-20 w-20 rounded-full active:border-2 hover:border-2 active:border-accent-light active:dark:border-accent-dark hover:border-accent-light hover:dark:border-accent-dark"
-            onClick={() => addPlayer()}
-          >
-            +
-          </button>
-        </div>
+        {!loadGroup && (
+          <div className="">
+            <button
+              className="font-black text-5xl text-bgdim-light dark:text-bgdim-dark h-20 w-20 rounded-full active:border-2 hover:border-2 active:border-accent-light active:dark:border-accent-dark hover:border-accent-light hover:dark:border-accent-dark"
+              onClick={() => addPlayer()}
+            >
+              +
+            </button>
+          </div>
+        )}
       </div>
       <div>
         <button

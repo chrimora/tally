@@ -1,3 +1,7 @@
+export const GAME_STORE_KEY = "game";
+export const GROUP_STORE_KEY = "groupid";
+
+// TODO; restructure data - move names to GameGroup
 export type Score = {
   name: string;
   amount: number;
@@ -17,7 +21,7 @@ export type HistoryData = {
 };
 
 export class Storage<Type> {
-  // TODO; use the indexedDB!
+  // TODO; migrate to using indexedDB
   key: string;
 
   constructor(key: string) {
@@ -35,11 +39,15 @@ export class Storage<Type> {
   }
 
   store(data: Type) {
+    if (typeof window == "undefined") return; // Server side
+
     let json = JSON.stringify(data);
     localStorage.setItem(this.key, json);
   }
 
   wipe() {
+    if (typeof window == "undefined") return; // Server side
+
     localStorage.removeItem(this.key);
   }
 }
@@ -54,7 +62,7 @@ export class History {
     return storage.read();
   }
 
-  static create(game: GameData, group?: number) {
+  static create(game: GameData, group?: number): number {
     let history = History.get();
 
     if (!history) {
@@ -78,6 +86,8 @@ export class History {
     }
     const storage = new Storage<HistoryData>(History.key);
     storage.store(history);
+
+    return group || history.groups.length - 1;
   }
 
   static transformGroup(data: GameGroup): aggScores {
