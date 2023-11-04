@@ -132,14 +132,20 @@ function Game({ state_reset }: { state_reset: () => void }) {
           />
         ))}
         {!loadGroup && (
-          <div className="">
-            <button
-              className="font-black text-5xl text-bgdim-light dark:text-bgdim-dark h-20 w-20 rounded-full active:border-2 hover:border-2 active:border-accent-light active:dark:border-accent-dark hover:border-accent-light hover:dark:border-accent-dark"
-              onClick={() => addPlayer()}
-            >
-              +
-            </button>
-          </div>
+          <span
+            className="
+            relative inline-block
+            h-14 w-14 m-1 align-middle rounded-full active:border-2 hover:border-2
+            active:border-accent-light dark:active:border-accent-dark hover:border-accent-light dark:hover:border-accent-dark
+            before:bg-bg-bgdim-light after:bg-bg-bgdim-light dark:before:bg-bgdim-dark dark:after:bg-bgdim-dark
+            before:absolute after:absolute
+            before:top-0 after:top-0 before:bottom-0 after:bottom-0 before:left-0 after:left-0 before:right-0 after:right-0
+            before:content-[''] after:content-['']
+            before:w-2 before:my-2 before:mx-auto
+            after:h-2 after:my-auto after:mx-2
+            "
+            onClick={() => addPlayer()}
+          ></span>
         )}
       </div>
       <div>

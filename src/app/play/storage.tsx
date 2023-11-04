@@ -96,6 +96,7 @@ export class History {
     data.games.map((game) => {
       game.scores.map(({ name, amount }) => {
         if (!(name in x)) x[name] = [];
+        // TODO; name uniqueness not enforced - could merge scores
         x[name].push(amount);
       });
     });
