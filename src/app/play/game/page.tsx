@@ -26,24 +26,40 @@ function Player({ index, update, score, fixNames }: PlayerProps) {
     update(index, { name: name, amount: score.amount });
   }
 
-  // TODO; align + and - buttons https://stackoverflow.com/a/51526649
   return (
     <div key={`player${index}`} className="flex flex-col items-center">
-      <div className="flex flex-row items-center">
+      <div className="flex flex-row items-end">
         <div className="text-9xl">{score.amount}</div>
-        <div className="flex flex-col items-center">
-          <button
-            className="h-10 w-10 m-1 rounded-full text-xl bg-bgdim-light dark:bg-bgdim-dark active:border-2 hover:border-2 active:border-accent-light active:dark:border-accent-dark hover:border-accent-light hover:dark:border-accent-dark"
+        <div className="flex flex-col">
+          <span
+            className="
+            relative inline-block
+            h-8 w-8 m-1 align-middle rounded-full active:border-2 hover:border-2
+            bg-bgdim-light dark:bg-bgdim-dark
+            active:border-accent-light dark:active:border-accent-dark hover:border-accent-light dark:hover:border-accent-dark
+            before:bg-bg-dark after:bg-bg-dark dark:before:bg-bg-light dark:after:bg-bg-light
+            before:absolute after:absolute
+            before:top-0 after:top-0 before:bottom-0 after:bottom-0 before:left-0 after:left-0 before:right-0 after:right-0
+            before:content-[''] after:content-['']
+            before:w-0.5 before:my-2 before:mx-auto
+            after:h-0.5 after:my-auto after:mx-2
+            "
             onClick={() => scoreSetter(+1)}
-          >
-            +
-          </button>
-          <button
-            className="h-10 w-10 m-1 rounded-full text-xl bg-bgdim-light dark:bg-bgdim-dark active:border-2 hover:border-2 active:border-accent-light active:dark:border-accent-dark hover:border-accent-light hover:dark:border-accent-dark"
+          ></span>
+          <span
+            className="
+            relative inline-block
+            h-8 w-8 m-1 align-middle rounded-full active:border-2 hover:border-2
+            bg-bgdim-light dark:bg-bgdim-dark
+            active:border-accent-light dark:active:border-accent-dark hover:border-accent-light dark:hover:border-accent-dark
+            after:bg-bg-dark dark:dark:after:bg-bg-light
+            after:absolute
+            after:top-0 after:bottom-0 after:left-0 after:right-0
+            after:content-['']
+            after:h-0.5 after:my-auto after:mx-2
+            "
             onClick={() => scoreSetter(-1)}
-          >
-            -
-          </button>
+          ></span>
         </div>
       </div>
       <input
@@ -57,11 +73,7 @@ function Player({ index, update, score, fixNames }: PlayerProps) {
   );
 }
 
-type GameProps = {
-  state_reset: () => void;
-};
-
-function Game({ state_reset }: GameProps) {
+function Game({ state_reset }: { state_reset: () => void }) {
   function addPlayer() {
     scoresSetter([
       ...scores,
