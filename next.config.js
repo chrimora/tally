@@ -4,6 +4,7 @@ let root = "/tally";
 const nextConfig = {
   basePath: root,
   output: "export",
+  trailingSlash: true,
   images: { unoptimized: true },
 };
 

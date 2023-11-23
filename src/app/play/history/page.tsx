@@ -42,7 +42,7 @@ export default function Page() {
               </tbody>
             </table>
             <Link
-              href={`/play/game/load/${i}`}
+              href={`/play/game/load?id=${i}`}
               className="
               relative inline-block
               h-10 w-10 m-1 align-middle rounded-full active:border-2 hover:border-2

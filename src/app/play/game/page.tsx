@@ -116,7 +116,7 @@ function Game({ state_reset }: { state_reset: () => void }) {
   }
   function next() {
     const group = History.create({ scores: scores }, loadGroup || undefined);
-    router.push(`/play/game/load/${group}`);
+    router.push(`/play/game/load?id=${group}`);
   }
 
   return (
@@ -127,11 +127,11 @@ function Game({ state_reset }: { state_reset: () => void }) {
             index={i}
             update={(i, s) => update(i, s)}
             score={score}
-            fixNames={loadGroup ? true : false}
+            fixNames={loadGroup == null ? false : true}
             key={i}
           />
         ))}
-        {!loadGroup && (
+        {loadGroup == null && (
           <span
             className="
             relative inline-block
