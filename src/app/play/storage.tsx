@@ -62,7 +62,7 @@ export class History {
     return storage.read();
   }
 
-  static create(game: GameData, group?: number): number {
+  static create(game: GameData, group: number | null): number {
     let history = History.get();
 
     if (!history) {
@@ -75,7 +75,7 @@ export class History {
         ],
       };
     } else {
-      if (!group) {
+      if (group == null) {
         history.groups.push({
           name: `group ${history.groups.length}`,
           games: [game],
