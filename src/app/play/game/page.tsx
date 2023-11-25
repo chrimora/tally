@@ -115,6 +115,7 @@ function Game({ state_reset }: { state_reset: () => void }) {
     state_reset();
   }
   function next() {
+    // TODO; catch storage error here
     const group = History.create({ scores: scores }, loadGroup);
     router.push(`/play/game/load?id=${group}`);
   }
