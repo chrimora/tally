@@ -1,14 +1,27 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { History, HistoryData } from "../storage";
+import { StorageErrorComponent, History, HistoryData } from "../storage";
+import { withErrorBoundary, useErrorBoundary } from "react-error-boundary";
 import Link from "next/link";
 
-export default function Page() {
-  const [history, historySetter] = useState<HistoryData>({ groups: [] });
+function HistoryPage() {
+  const { showBoundary } = useErrorBoundary();
+
+  const [history, historySetter] = useState<HistoryData>({
+    version: "",
+    groups: [],
+  });
 
   useEffect(() => {
-    const h = History.get();
+    let h;
+
+    try {
+      h = History.get();
+    } catch (error) {
+      showBoundary(error);
+    }
+
     if (h) {
       historySetter(h);
     }
@@ -60,4 +73,12 @@ export default function Page() {
       </div>
     </>
   );
+}
+
+const HistoryWithErrorBoundary = withErrorBoundary(HistoryPage, {
+  FallbackComponent: StorageErrorComponent,
+});
+
+export default function Page() {
+  return <HistoryWithErrorBoundary />;
 }

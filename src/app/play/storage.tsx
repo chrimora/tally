@@ -1,6 +1,8 @@
 export const GAME_STORE_KEY = "game";
 export const GROUP_STORE_KEY = "groupid";
 
+class StorageError extends Error {}
+
 // TODO; restructure data - move names to GameGroup
 export type Score = {
   name: string;
@@ -17,6 +19,7 @@ export type GameGroup = {
 };
 
 export type HistoryData = {
+  version: string;
   groups: GameGroup[];
 };
 
@@ -50,16 +53,33 @@ export class Storage<Type> {
 
     localStorage.removeItem(this.key);
   }
+
+  static wipeAll() {
+    if (typeof window == "undefined") return; // Server side
+
+    localStorage.clear();
+  }
 }
 
 type aggScores = { [name: string]: number[] };
 
 export class History {
   static key = "history";
+  static version = "v3";
 
   static get(): HistoryData | null {
     const storage = new Storage<HistoryData>(History.key);
-    return storage.read();
+    const history = storage.read();
+
+    if (
+      history &&
+      (!Object.hasOwn(history, "version") ||
+        (Object.hasOwn(history, "version") &&
+          history.version != History.version))
+    )
+      throw new StorageError("Legacy history data.");
+
+    return history;
   }
 
   static create(game: GameData, group: number | null): number {
@@ -67,6 +87,7 @@ export class History {
 
     if (!history) {
       history = {
+        version: History.version,
         groups: [
           {
             name: "group 0",
@@ -84,8 +105,7 @@ export class History {
         history.groups[group].games.push(game);
       }
     }
-    const storage = new Storage<HistoryData>(History.key);
-    storage.store(history);
+    new Storage<HistoryData>(History.key).store(history);
 
     return group || history.groups.length - 1;
   }
@@ -102,4 +122,35 @@ export class History {
     });
     return x;
   }
+}
+
+export function StorageErrorComponent({
+  error,
+  resetErrorBoundary,
+}: {
+  error: Error & { digest?: string };
+  resetErrorBoundary: () => void;
+}) {
+  function wipe() {
+    if (confirm("Note: this will delete all stored data.")) Storage.wipeAll();
+    resetErrorBoundary();
+  }
+
+  if (error instanceof StorageError) {
+    return (
+      <div>
+        <h2>Error: Legacy history data detected.</h2>
+        <p>
+          The version of data stored on this device does not match the storage
+          version of the application. It will need to be reset.
+        </p>
+        <button
+          className="p-4 mx-2 mt-10 border-2 border-accent-light dark:border-accent-dark active:bg-accent-light active:dark:bg-accent-dark hover:bg-accent-light hover:dark:bg-accent-dark"
+          onClick={() => wipe()}
+        >
+          Reset
+        </button>
+      </div>
+    );
+  } else throw error;
 }
