@@ -37,6 +37,14 @@ function HistoryPage() {
     }
   }, []);
 
+  function update(i: number, group_name: string) {
+    let new_history = { ...history };
+    new_history.groups[i].name = group_name;
+
+    historySetter(new_history);
+    new Storage<HistoryData>(History.key).store(history);
+  }
+
   function reset() {
     new Storage<GameData>(GAME_STORE_KEY).wipe();
     new Storage<number>(GROUP_STORE_KEY).wipe();
@@ -50,32 +58,38 @@ function HistoryPage() {
           <p>No games yet. Go play!</p>
         ) : (
           history.groups.map((group, i) => (
-            <div
-              key={`${group.name}${i}`}
-              className="flex flex-row items-center mb-6"
-            >
-              <table>
-                <tbody>
-                  {Object.entries(History.transformGroup(group)).map(
-                    ([name, amounts], k) => (
-                      <tr key={name} className={k != 0 ? "border-t" : ""}>
-                        <td className="w-40 truncate border-r pr-4 text-right">
-                          {name}
-                        </td>
-                        <td className="pr-4"></td>
-                        {amounts.map((amount, j) => (
-                          <td key={j} className="w-8 text-left">
-                            {amount}
-                          </td>
-                        ))}
-                      </tr>
-                    ),
-                  )}
-                </tbody>
-              </table>
-              <Link
-                href={`/play/game/load?id=${i}`}
-                className="
+            <div key={`${i}`}>
+              <input
+                type="text"
+                onChange={(e) => update(i, e.target.value)}
+                value={group.name}
+                className="w-full appearance-none outline-none bg-bgdim-light dark:bg-bgdim-dark py-2 rounded-xl text-center"
+              />
+              <div className="flex flex-row items-center mb-6">
+                <div className="grow">
+                  <table>
+                    <tbody>
+                      {Object.entries(History.transformGroup(group)).map(
+                        ([name, amounts], k) => (
+                          <tr key={name} className={k != 0 ? "border-t" : ""}>
+                            <td className="w-40 truncate border-r pr-4 text-right">
+                              {name}
+                            </td>
+                            <td className="pr-4"></td>
+                            {amounts.map((amount, j) => (
+                              <td key={j} className="w-8 text-left">
+                                {amount}
+                              </td>
+                            ))}
+                          </tr>
+                        ),
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+                <Link
+                  href={`/play/game/load?id=${i}`}
+                  className="
               relative inline-block
               h-10 w-10 m-1 align-middle rounded-full active:border-2 hover:border-2
               active:border-accent-light dark:active:border-accent-dark hover:border-accent-light dark:hover:border-accent-dark
@@ -86,7 +100,9 @@ function HistoryPage() {
               before:w-1 before:my-2 before:mx-auto
               after:h-1 after:my-auto after:mx-2
               "
-              ></Link>
+                ></Link>
+              </div>
+              <br />
             </div>
           ))
         )}
