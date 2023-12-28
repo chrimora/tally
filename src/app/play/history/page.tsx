@@ -1,11 +1,21 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { StorageErrorComponent, History, HistoryData } from "../storage";
+import {
+  Storage,
+  StorageErrorComponent,
+  History,
+  HistoryData,
+  GameData,
+  GROUP_STORE_KEY,
+  GAME_STORE_KEY,
+} from "../storage";
 import { withErrorBoundary, useErrorBoundary } from "react-error-boundary";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 function HistoryPage() {
+  const router = useRouter();
   const { showBoundary } = useErrorBoundary();
 
   const [history, historySetter] = useState<HistoryData>({
@@ -26,6 +36,12 @@ function HistoryPage() {
       historySetter(h);
     }
   }, []);
+
+  function reset() {
+    new Storage<GameData>(GAME_STORE_KEY).wipe();
+    new Storage<number>(GROUP_STORE_KEY).wipe();
+    router.push(`/play/game`);
+  }
 
   return (
     <>
@@ -74,6 +90,12 @@ function HistoryPage() {
             </div>
           ))
         )}
+        <button
+          className="p-4 mx-2 mt-20 border-2 border-accent-light dark:border-accent-dark active:bg-accent-light active:dark:bg-accent-dark hover:bg-accent-light hover:dark:bg-accent-dark"
+          onClick={() => reset()}
+        >
+          New Game
+        </button>
       </div>
     </>
   );
