@@ -79,7 +79,7 @@ function HistoryPage() {
               relative inline-block
               h-10 w-10 m-1 align-middle rounded-full active:border-2 hover:border-2
               active:border-accent-light dark:active:border-accent-dark hover:border-accent-light dark:hover:border-accent-dark
-              before:bg-bg-bgdim-light after:bg-bg-bgdim-light dark:before:bg-bgdim-dark dark:after:bg-bgdim-dark
+              before:bg-bgdim-light after:bg-bgdim-light dark:before:bg-bgdim-dark dark:after:bg-bgdim-dark
               before:absolute after:absolute
               before:top-0 after:top-0 before:bottom-0 after:bottom-0 before:left-0 after:left-0 before:right-0 after:right-0
               before:content-[''] after:content-['']
