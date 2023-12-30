@@ -122,7 +122,7 @@ function Game({ state_reset }: { state_reset: () => void }) {
 
   return (
     <>
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4">
+      <div className="grid items-center auto-rows-fr grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4">
         {scores.map((score, i) => (
           <Player
             index={i}
@@ -132,16 +132,28 @@ function Game({ state_reset }: { state_reset: () => void }) {
             key={i}
           />
         ))}
-      </div>
-      <div>
         {loadGroup == null && (
-          <button
-            className="p-4 mx-2 mt-20 border-2 border-accent-light dark:border-accent-dark active:bg-accent-light active:dark:bg-accent-dark hover:bg-accent-light hover:dark:bg-accent-dark"
+          <div
+            className="rounded-md active:border-2 hover:border-2 active:border-accent-light dark:active:border-accent-dark hover:border-accent-light dark:hover:border-accent-dark"
             onClick={() => addPlayer()}
           >
-            Add Player
-          </button>
+            <span
+              className="
+            relative inline-block
+            h-14 w-14 m-1 align-middle
+            before:bg-bgdim-light after:bg-bgdim-light dark:before:bg-bgdim-dark dark:after:bg-bgdim-dark
+            before:absolute after:absolute
+            before:top-0 after:top-0 before:bottom-0 after:bottom-0 before:left-0 after:left-0 before:right-0 after:right-0
+            before:content-[''] after:content-['']
+            before:w-2 before:my-2 before:mx-auto
+            after:h-2 after:my-auto after:mx-2
+            "
+            ></span>
+            <p className="font-bold">Add Player</p>
+          </div>
         )}
+      </div>
+      <div>
         <button
           className="p-4 mx-2 mt-20 border-2 border-accent-light dark:border-accent-dark active:bg-accent-light active:dark:bg-accent-dark hover:bg-accent-light hover:dark:bg-accent-dark"
           onClick={() => reset()}
