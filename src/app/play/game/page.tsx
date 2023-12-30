@@ -28,8 +28,8 @@ function Player({ index, update, score, fixNames }: PlayerProps) {
 
   return (
     <div key={`player${index}`} className="flex flex-col items-center">
-      <div className="flex flex-row items-end">
-        <div className="text-9xl">{score.amount}</div>
+      <div className="flex flex-row items-center">
+        <div className="text-8xl">{score.amount}</div>
         <div className="flex flex-col">
           <span
             className="
@@ -67,7 +67,7 @@ function Player({ index, update, score, fixNames }: PlayerProps) {
         onChange={(e) => nameSetter(e.target.value)}
         value={score.name}
         readOnly={fixNames}
-        className="flex appearance-none outline-none bg-bgdim-light dark:bg-bgdim-dark py-2 rounded-xl text-center"
+        className="w-full appearance-none outline-none bg-bgdim-light dark:bg-bgdim-dark py-2 rounded-xl text-center"
       />
     </div>
   );
@@ -122,7 +122,7 @@ function Game({ state_reset }: { state_reset: () => void }) {
 
   return (
     <>
-      <div className="flex flex-row flex-wrap justify-center items-center gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4">
         {scores.map((score, i) => (
           <Player
             index={i}
