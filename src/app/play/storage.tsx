@@ -107,7 +107,8 @@ export class History {
     }
     new Storage<HistoryData>(History.key).store(history);
 
-    return group || history.groups.length - 1;
+    if (group == null) return history.groups.length - 1;
+    else return group;
   }
 
   static transformGroup(data: GameGroup): aggScores {
