@@ -12,22 +12,21 @@ import {
 } from "../storage";
 
 type PlayerProps = {
-  index: number;
-  update: (i: number, score: Score) => void;
+  update: (score: Score) => void;
   score: Score;
   fixNames: boolean;
 };
 
-function Player({ index, update, score, fixNames }: PlayerProps) {
+function Player({ update, score, fixNames }: PlayerProps) {
   function scoreSetter(n: number) {
-    update(index, { name: score.name, amount: score.amount + n });
+    update({ name: score.name, amount: score.amount + n });
   }
   function nameSetter(name: string) {
-    update(index, { name: name, amount: score.amount });
+    update({ name: name, amount: score.amount });
   }
 
   return (
-    <div key={`player${index}`} className="flex flex-col items-center">
+    <div className="flex flex-col items-center">
       <div className="flex flex-row items-center">
         <div className="text-8xl">{score.amount}</div>
         <div className="flex flex-col">
@@ -125,8 +124,7 @@ function Game({ state_reset }: { state_reset: () => void }) {
       <div className="grid items-center auto-rows-fr grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4">
         {scores.map((score, i) => (
           <Player
-            index={i}
-            update={(i, s) => update(i, s)}
+            update={(s) => update(i, s)}
             score={score}
             fixNames={loadGroup == null ? false : true}
             key={i}
