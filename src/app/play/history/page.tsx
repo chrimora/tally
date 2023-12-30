@@ -72,12 +72,11 @@ function HistoryPage() {
                       {Object.entries(History.transformGroup(group)).map(
                         ([name, amounts], k) => (
                           <tr key={name} className={k != 0 ? "border-t" : ""}>
-                            <td className="w-40 truncate border-r pr-4 text-right">
+                            <td className="truncate border-r px-2 text-right">
                               {name}
                             </td>
-                            <td className="pr-4"></td>
                             {amounts.map((amount, j) => (
-                              <td key={j} className="w-8 text-left">
+                              <td key={j} className="w-5">
                                 {amount}
                               </td>
                             ))}
