@@ -1,11 +1,12 @@
 {
+  "id": "tally",
   "name": "tally",
   "short_name": "tally",
-  "start_url": ".",
+  "start_url": "/tally/play/game",
   "display": "standalone",
   "icons": [
     {
-      "src": "/logo.png",
+      "src": "/tally/logo.png",
       "type": "image/png",
       "sizes": "260x260"
     }
