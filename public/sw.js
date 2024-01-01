@@ -1,25 +1,23 @@
-// Change the cache version on asset changes
-const CACHE = "v1";
+const cacheName = "pagesV1";
 
 self.addEventListener("install", () => {});
 
-self.addEventListener("activate", () => {
-  // TODO; Cleanup previous version cache
-});
+self.addEventListener("activate", () => {});
 
-const cacheClone = async (e) => {
-  const res = await fetch(e.request);
-  const resClone = res.clone();
+self.addEventListener("fetch", (event) => {
+  event.respondWith(
+    caches.open(cacheName).then((cache) => {
+      // Return from the cache when available
+      return cache.match(event.request).then((cachedResponse) => {
+        // Then fetch from server and update cache
+        const fetchedResponse = fetch(event.request).then((networkResponse) => {
+          cache.put(event.request, networkResponse.clone());
 
-  const cache = await caches.open(CACHE);
-  await cache.put(e.request, resClone);
-  return res;
-};
+          return networkResponse;
+        });
 
-self.addEventListener("fetch", (e) => {
-  e.respondWith(
-    cacheClone(e)
-      .catch(() => caches.match(e.request))
-      .then((res) => res),
+        return cachedResponse || fetchedResponse;
+      });
+    }),
   );
 });
