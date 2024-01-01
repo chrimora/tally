@@ -36,9 +36,6 @@ export default function Home() {
           Enter
         </Link>
       </div>
-      <div className="max-w-md mx-auto text-xs">
-        All data is stored on your device so don&apos;t lose it!
-      </div>
     </div>
   );
 }

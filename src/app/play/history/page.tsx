@@ -107,12 +107,15 @@ function HistoryPage() {
           ))
         )}
         <button
-          className="p-4 mx-2 mt-20 border-2 border-accent-light dark:border-accent-dark active:bg-accent-light active:dark:bg-accent-dark hover:bg-accent-light hover:dark:bg-accent-dark"
+          className="p-4 mx-2 my-10 border-2 border-accent-light dark:border-accent-dark active:bg-accent-light active:dark:bg-accent-dark hover:bg-accent-light hover:dark:bg-accent-dark"
           onClick={() => reset()}
         >
           New Game
         </button>
       </div>
+      <p className="text-xs">
+        All data is stored on your device so don&apos;t lose it!
+      </p>
     </>
   );
 }
