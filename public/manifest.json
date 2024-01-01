@@ -8,9 +8,28 @@
   "theme_color": "#A7C080",
   "icons": [
     {
-      "src": "/tally/logo.png",
+      "src": "/tally/images/logo.png",
       "type": "image/png",
-      "sizes": "260x260"
+      "sizes": "260x260",
+      "purpose": "any"
+    },
+    {
+      "src": "/tally/images/maskable_icon_x128.png",
+      "type": "image/png",
+      "sizes": "128x128",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/tally/images/maskable_icon_x192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/tally/images/maskable_icon_x384.png",
+      "type": "image/png",
+      "sizes": "384x384",
+      "purpose": "maskable"
     }
   ]
 }

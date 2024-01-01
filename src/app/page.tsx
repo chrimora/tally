@@ -6,7 +6,7 @@ export default function Home() {
     <div className="space-y-12 text-center p-8">
       <Link href="/" className="inline-block mx-auto">
         <Image
-          src="/tally/logo.png"
+          src="/tally/images/logo.png"
           alt="tally logo"
           height="200"
           width="200"

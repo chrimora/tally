@@ -18,7 +18,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <div className="w-20 flex shrink-0 justify-center items-center">
             <Link href="/" className="block">
               <Image
-                src="/tally/logo.png"
+                src="/tally/images/logo.png"
                 alt="tally logo"
                 height="40"
                 width="40"
