@@ -4,6 +4,8 @@
   "short_name": "tally",
   "start_url": "/tally/play/game",
   "display": "standalone",
+  "background_color": "#2D353B",
+  "theme_color": "#A7C080",
   "icons": [
     {
       "src": "/tally/logo.png",
