@@ -13,9 +13,11 @@ export type GameData = {
   scores: Score[];
 };
 
+export type DatedGameData = GameData & { createdAt: number };
+
 export type GameGroup = {
   name: string;
-  games: GameData[];
+  games: DatedGameData[];
 };
 
 export type HistoryData = {
@@ -83,6 +85,11 @@ export class History {
   }
 
   static create(game: GameData, group: number | null): number {
+    let datedGame: DatedGameData = Object.assign(
+      { timestamp: Date.now() },
+      game,
+    );
+
     let history = History.get();
 
     if (!history) {
@@ -91,7 +98,7 @@ export class History {
         groups: [
           {
             name: "group 0",
-            games: [game],
+            games: [datedGame],
           },
         ],
       };
@@ -99,10 +106,10 @@ export class History {
       if (group == null) {
         history.groups.push({
           name: `group ${history.groups.length}`,
-          games: [game],
+          games: [datedGame],
         });
       } else {
-        history.groups[group].games.push(game);
+        history.groups[group].games.push(datedGame);
       }
     }
     new Storage<HistoryData>(History.key).store(history);
