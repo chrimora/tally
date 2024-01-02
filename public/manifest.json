@@ -8,15 +8,9 @@
   "theme_color": "#A7C080",
   "icons": [
     {
-      "src": "/tally/images/logo.png",
+      "src": "/tally/images/maskable_icon_x512.png",
       "type": "image/png",
-      "sizes": "260x260",
-      "purpose": "any"
-    },
-    {
-      "src": "/tally/images/maskable_icon_x128.png",
-      "type": "image/png",
-      "sizes": "128x128",
+      "sizes": "512x512",
       "purpose": "maskable"
     },
     {
@@ -26,10 +20,10 @@
       "purpose": "maskable"
     },
     {
-      "src": "/tally/images/maskable_icon_x384.png",
+      "src": "/tally/images/logo.png",
       "type": "image/png",
-      "sizes": "384x384",
-      "purpose": "maskable"
+      "sizes": "260x260",
+      "purpose": "any"
     }
   ]
 }
