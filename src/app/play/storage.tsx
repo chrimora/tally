@@ -63,7 +63,7 @@ export class Storage<Type> {
   }
 }
 
-type aggScores = { [name: string]: number[] };
+type scoreTable = any[][];
 
 export class History {
   static key = "history";
@@ -118,17 +118,28 @@ export class History {
     else return group;
   }
 
-  static transformGroup(data: GameGroup): aggScores {
-    let x: aggScores = {};
+  static transformGroup(data: GameGroup): scoreTable {
+    let y: scoreTable = [];
 
-    data.games.map((game) => {
-      game.scores.map(({ name, amount }) => {
-        if (!(name in x)) x[name] = [];
-        // TODO; name uniqueness not enforced - could merge scores
-        x[name].push(amount);
-      });
+    data.games.map((game, i) => {
+      if (i == 0) y.push(["Date"]); // First loop prepend the Date header
+      game.scores
+        .sort((a, b) => (a.name > b.name ? 1 : -1)) // Sort so names in each game are same order
+        .map((score, j) => {
+          if (i == 0) y.push([score.name]); // First loop add the name headers
+          y[j + 1].push(score.amount);
+        });
+      y[0].push(
+        new Date(game.createdAt).toLocaleDateString(undefined, {
+          day: "2-digit",
+          month: "2-digit",
+          year: "2-digit",
+        }),
+      );
     });
-    return x;
+
+    // Transpose before return
+    return y[0].map((_, colIndex) => y.map((row) => row[colIndex]));
   }
 }
 

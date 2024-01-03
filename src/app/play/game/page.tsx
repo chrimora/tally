@@ -108,7 +108,7 @@ function Game({ state_reset }: { state_reset: () => void }) {
     storage.store({ scores: scores });
   }
 
-  function reset() {
+  function new_game() {
     storage.wipe();
     new Storage<number>(GROUP_STORE_KEY).wipe();
     state_reset();
@@ -154,7 +154,7 @@ function Game({ state_reset }: { state_reset: () => void }) {
       <div>
         <button
           className="p-4 mx-2 my-10 border-2 border-accent-light dark:border-accent-dark active:bg-accent-light active:dark:bg-accent-dark hover:bg-accent-light hover:dark:bg-accent-dark"
-          onClick={() => reset()}
+          onClick={() => new_game()}
         >
           Reset
         </button>

@@ -45,7 +45,7 @@ function HistoryPage() {
     new Storage<HistoryData>(History.key).store(history);
   }
 
-  function reset() {
+  function new_game() {
     new Storage<GameData>(GAME_STORE_KEY).wipe();
     new Storage<number>(GROUP_STORE_KEY).wipe();
     router.push(`/play/game`);
@@ -58,7 +58,7 @@ function HistoryPage() {
           <p>No games yet. Go play!</p>
         ) : (
           history.groups.map((group, i) => (
-            <div key={`${i}`}>
+            <div key={i}>
               <div className="flex flex-row items-center">
                 <input
                   type="text"
@@ -83,23 +83,21 @@ function HistoryPage() {
                   ></Link>
                 </div>
               </div>
-              <div className="py-6 px-4">
+              <div className="py-6">
                 <table>
                   <tbody>
-                    {Object.entries(History.transformGroup(group)).map(
-                      ([name, amounts], k) => (
-                        <tr key={name} className={k != 0 ? "border-t" : ""}>
-                          <td className="truncate border-r px-2 text-right">
-                            {name}
+                    {History.transformGroup(group).map((row, j) => (
+                      <tr key={j}>
+                        {row.map((cell, k) => (
+                          <td
+                            key={k}
+                            className={k != 0 ? "px-2 border-l" : "px-2"}
+                          >
+                            {cell}
                           </td>
-                          {amounts.map((amount, j) => (
-                            <td key={j} className="w-5">
-                              {amount}
-                            </td>
-                          ))}
-                        </tr>
-                      ),
-                    )}
+                        ))}
+                      </tr>
+                    ))}
                   </tbody>
                 </table>
               </div>
@@ -108,7 +106,7 @@ function HistoryPage() {
         )}
         <button
           className="p-4 mx-2 my-10 border-2 border-accent-light dark:border-accent-dark active:bg-accent-light active:dark:bg-accent-dark hover:bg-accent-light hover:dark:bg-accent-dark"
-          onClick={() => reset()}
+          onClick={() => new_game()}
         >
           New Game
         </button>
