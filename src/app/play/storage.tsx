@@ -86,7 +86,7 @@ export class History {
 
   static create(game: GameData, group: number | null): number {
     let datedGame: DatedGameData = Object.assign(
-      { timestamp: Date.now() },
+      { createdAt: Date.now() },
       game,
     );
 
