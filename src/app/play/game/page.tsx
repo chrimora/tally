@@ -73,32 +73,35 @@ function Player({ update, score, fixNames }: PlayerProps) {
 }
 
 function Game({ state_reset }: { state_reset: () => void }) {
-  function addPlayer() {
-    scoresSetter([
-      ...scores,
-      {
-        name: `player ${scores.length}`,
-        amount: 0,
-      },
-    ]);
-  }
-
   const router = useRouter();
 
   const storage = new Storage<GameData>(GAME_STORE_KEY);
   const [scores, scoresSetter] = useState<Score[]>([]);
 
   const loadGroup = new Storage<number>(GROUP_STORE_KEY).read();
+  const [groupName, groupNameSetter] = useState("");
 
-  // Fix hydration errors
+  // Fix hydration errors - client operations need to be in Effect
   useEffect(() => {
     addPlayer();
+
+    if (loadGroup != null) groupNameSetter(History.getGroupName(loadGroup));
 
     let load = storage.read();
     if (load) {
       scoresSetter(load.scores);
     }
   }, []);
+
+  function addPlayer() {
+    scoresSetter([
+      ...scores,
+      {
+        name: `player${scores.length}`,
+        amount: 0,
+      },
+    ]);
+  }
 
   function update(i: number, score: Score) {
     let new_scores = [...scores];
@@ -121,6 +124,7 @@ function Game({ state_reset }: { state_reset: () => void }) {
 
   return (
     <>
+      <p className="pb-6 text-xl">{groupName}</p>
       <div className="grid items-center auto-rows-fr grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-4">
         {scores.map((score, i) => (
           <Player

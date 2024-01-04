@@ -97,7 +97,7 @@ export class History {
         version: History.version,
         groups: [
           {
-            name: "group 0",
+            name: "Unnamed Group",
             games: [datedGame],
           },
         ],
@@ -105,7 +105,7 @@ export class History {
     } else {
       if (group == null) {
         history.groups.push({
-          name: `group ${history.groups.length}`,
+          name: "Unnamed Group",
           games: [datedGame],
         });
       } else {
@@ -116,6 +116,12 @@ export class History {
 
     if (group == null) return history.groups.length - 1;
     else return group;
+  }
+
+  static getGroupName(groupIndex: number): string {
+    let history = History.get();
+    if (history) return history.groups[groupIndex].name;
+    else return "";
   }
 
   static transformGroup(data: GameGroup): scoreTable {
