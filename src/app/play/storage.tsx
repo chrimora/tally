@@ -125,17 +125,17 @@ export class History {
   }
 
   static transformGroup(data: GameGroup): scoreTable {
-    let y: scoreTable = [];
+    let table: scoreTable = [];
 
     data.games.map((game, i) => {
-      if (i == 0) y.push(["Date"]); // First loop prepend the Date header
+      if (i == 0) table.push(["Date"]); // First loop prepend the Date header
       game.scores
         .sort((a, b) => (a.name > b.name ? 1 : -1)) // Sort so names in each game are same order
         .map((score, j) => {
-          if (i == 0) y.push([score.name]); // First loop add the name headers
-          y[j + 1].push(score.amount);
+          if (i == 0) table.push([score.name]); // First loop add the name headers
+          table[j + 1].push(score.amount);
         });
-      y[0].push(
+      table[0].push(
         new Date(game.createdAt).toLocaleDateString(undefined, {
           day: "2-digit",
           month: "2-digit",
@@ -144,8 +144,21 @@ export class History {
       );
     });
 
+    table.map((player, i) => {
+      if (i == 0) table[i].push("Total");
+      else {
+        table[i].push(
+          player
+            .map((score, j) => {
+              return j == 0 ? 0 : score;
+            })
+            .reduce((acc, x) => acc + x, 0),
+        );
+      }
+    });
+
     // Transpose before return
-    return y[0].map((_, colIndex) => y.map((row) => row[colIndex]));
+    return table[0].map((_, colIndex) => table.map((row) => row[colIndex]));
   }
 }
 

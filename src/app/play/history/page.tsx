@@ -91,7 +91,10 @@ function HistoryPage() {
                         {row.map((cell, k) => (
                           <td
                             key={k}
-                            className={k != 0 ? "px-2 border-l" : "px-2"}
+                            className={`px-2
+                            ${k != 0 ? "border-l" : ""}
+                            ${j == 0 ? "border-b" : ""}
+                            ${j == group.games.length ? "border-b" : ""}`}
                           >
                             {cell}
                           </td>
