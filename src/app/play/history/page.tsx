@@ -13,6 +13,9 @@ import {
 import { withErrorBoundary, useErrorBoundary } from "react-error-boundary";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 
 function HistoryPage() {
   const router = useRouter();
@@ -37,6 +40,12 @@ function HistoryPage() {
     }
   }, []);
 
+  function new_game() {
+    new Storage<GameData>(GAME_STORE_KEY).wipe();
+    new Storage<number>(GROUP_STORE_KEY).wipe();
+    router.push(`/play/game`);
+  }
+
   function update(i: number, group_name: string) {
     let new_history = { ...history };
     new_history.groups[i].name = group_name;
@@ -45,10 +54,18 @@ function HistoryPage() {
     new Storage<HistoryData>(History.key).store(history);
   }
 
-  function new_game() {
-    new Storage<GameData>(GAME_STORE_KEY).wipe();
-    new Storage<number>(GROUP_STORE_KEY).wipe();
-    router.push(`/play/game`);
+  function delete_group(i: number) {
+    if (confirm("Are you sure you want delete this game group?")) {
+      let new_history = { ...history };
+      new_history.groups.splice(i, 1);
+
+      historySetter(new_history);
+      new Storage<HistoryData>(History.key).store(history);
+
+      // index will have changed - wipe current game to avoid issues
+      new Storage<GameData>(GAME_STORE_KEY).wipe();
+      new Storage<number>(GROUP_STORE_KEY).wipe();
+    }
   }
 
   return (
@@ -66,22 +83,12 @@ function HistoryPage() {
                   value={group.name}
                   className="w-full appearance-none outline-none bg-bgdim-light dark:bg-bgdim-dark py-2 rounded-xl text-center"
                 />
-                <div className="flex-none">
-                  <Link
-                    href={`/play/game/load?id=${i}`}
-                    className="
-              relative inline-block
-              h-10 w-10 m-1 align-middle rounded-full active:border-2 hover:border-2
-              active:border-accent-light dark:active:border-accent-dark hover:border-accent-light dark:hover:border-accent-dark
-              before:bg-bgdim-light after:bg-bgdim-light dark:before:bg-bgdim-dark dark:after:bg-bgdim-dark
-              before:absolute after:absolute
-              before:top-0 after:top-0 before:bottom-0 after:bottom-0 before:left-0 after:left-0 before:right-0 after:right-0
-              before:content-[''] after:content-['']
-              before:w-1 before:my-2 before:mx-auto
-              after:h-1 after:my-auto after:mx-2
-              "
-                  ></Link>
-                </div>
+                <button onClick={() => delete_group(i)}>
+                  <FontAwesomeIcon icon={faTrashCan} className="p-2 text-2xl" />
+                </button>
+                <Link href={`/play/game/load?id=${i}`}>
+                  <FontAwesomeIcon icon={faPlus} className="p-2 text-2xl" />
+                </Link>
               </div>
               <div className="py-6">
                 <table>
